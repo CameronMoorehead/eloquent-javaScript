@@ -67,4 +67,4 @@ function nth(initList, position) {
     return getNth(initList, position, iterator);
 }
 
-console.log(nth(list, 1));
+console.log(nth(list, 1)); // represents nth element on 0-based indexing for list element postitions
