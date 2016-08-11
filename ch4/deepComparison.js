@@ -1,34 +1,38 @@
 function deepEqual(x, y) {
-    if (typeof x == 'object' && x != null) {
+    if (x === y) {
         return true;
-    } else {
-        return compare(x, y);
     }
-    function compare(x, y) {
-        var xArray = [], yArray = [];
-        for (var prop in x) {
-            return xArray.push(prop);
-        }
-        for (var prop in y) {
-            return yArray.push(prop);
-        }
-        if (xArray.length !== yArray.length) {
+
+    if (x == null || typeof x != 'object') {
+        return false;
+    }
+
+    var propsInX = 0;
+    var propsInY = 0;
+
+    for (var prop in x) {
+        propsInX++;
+    }
+
+    for (var prop in y) {
+        propsInY++;
+        if (!(prop in x) || !deepEqual(x[prop], y[prop])) {
             return false;
-        } else {
-            for (var i = 0; i < xArray.length; i++)  {
-                return deepEqual(xArray[i], yArray[i]);
-            }
         }
     }
+
+    return propsInX === propsInY;
+    
 }    
 var object1 = {};
 var object2 = {};
+var object3 = {};
+var object4 = {};
 
-object1.value = 1;
-object2.value = 1;
-
-console.log(object1 === object2);
+object1.value = 2;
+object2.value = 2;
+object3.value = "snakes";
+object4.value = "ladders";
 
 console.log(deepEqual(object1, object2));
-
-
+console.log(deepEqual(object3, object4));
