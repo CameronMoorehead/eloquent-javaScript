@@ -101,7 +101,7 @@ World.prototype.toString = function() {
 
 function Wall() {}
 
-var world = new World(plan, { '#': Wall, 'o': BouncingCritter })
+//var world = new World(plan, { '#': Wall, 'o': BouncingCritter })
 
 Grid.prototype.forEach = function(f, context) {
     for (var y = 0; y < this.height; y++) {
@@ -241,4 +241,54 @@ actionTypes.reproduce = function(critter, vector, action) {
     critter.energy -= 2 * baby.energy
     this.grid.set(dest, baby)
     return true
+}
+
+function Plant() {
+    this.energy = 3 + Math.random() * 4
+}
+Plant.prototype.act = function(context) {
+    if (this.energy > 15) {
+        var space = context.find(' ')
+        if (space)
+            return {type: 'reproduce', direction: space}
+    }
+    if (this.energy < 20)
+        return {type: 'grow'}
+}
+
+function PlantEater() {
+    this.energy = 20
+}
+PlantEater.prototype.act = function(context) {
+    var space = context.find(' ')
+    if (this.energy > 60 && space)
+        return {type: 'reproduce', direction: space}
+    var plant = context.find('*')
+    if (plant)
+        return {type: 'eat', direction: plant}
+    if (space)
+        return {type: 'move', direction: space}
+}
+
+var valley = new LifelikeWorld(
+    ['############################',
+     '#####                 ######',
+     '##   ***                **##',
+     '#   *##**         **  O  *##',
+     '#    ***     O    ##**    *#',
+     '#       O         ##***    #',
+     '#                 ##**     #',
+     '#   O       #*             #',
+     '#*          #**       O    #',
+     '#***        ##**    O    **#',
+     '##****     ###***       *###',
+     '############################'],
+  {'#': Wall,
+     'O': PlantEater,
+     '*': Plant}
+)
+
+for (var i = 0; i < 250; i++) {
+    valley.turn()
+    console.log(valley.toString())
 }
