@@ -1,0 +1,23 @@
+{
+  "name": "ejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CameronMoorehead/eloquentJavaScript.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CameronMoorehead/eloquentJavaScript/issues"
+  },
+  "homepage": "https://github.com/CameronMoorehead/eloquentJavaScript#readme",
+  "devDependencies": {
+    "eslint": "^3.3.1",
+    "eslint-plugin-react": "^6.1.2"
+  }
+}
