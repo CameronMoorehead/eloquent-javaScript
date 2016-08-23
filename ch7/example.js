@@ -270,6 +270,44 @@ PlantEater.prototype.act = function(context) {
         return {type: 'move', direction: space}
 }
 
+/*********************************************************************
+ * LifelikeWorld invoked w/ PlantEater2 for Artificial Stupidty problem
+ */
+
+function PlantEater2() {
+    this.direction = randomElement(directionNames)
+    this.energy = 20    
+}
+PlantEater2.prototype.act = function(context) {
+    var space = context.find(' ')
+    if (this.energy > 60 && space)
+        return {type: 'reproduce', direction: space}
+    var plant = context.find('*')
+    if (plant && this.energy < 50)
+        return {type: 'eat', direction: plant}
+    if (plant)
+        return {type: 'move', direction: space}
+}
+
+function PlantEater3() {
+    this.direction = randomElement(directionNames)
+    this.energy = 20    
+}
+PlantEater3.prototype.act = function(context) {
+    var space = context.find(' ')
+    if (this.energy > 60 && space)
+        return {type: 'reproduce', direction: space}
+    var plant = context.find('*')
+    if (plant && this.energy < 50)
+        return {type: 'eat', direction: plant}
+    console.log(this)
+    if (context.look(this.direction) != ' ') {
+        this.direction = context.find(' ') || 's'
+    } 
+    return {type: 'move', direction: this.direction}
+}
+
+
 var valley = new LifelikeWorld(
     ['############################',
      '#####                 ######',
@@ -284,11 +322,11 @@ var valley = new LifelikeWorld(
      '##****     ###***       *###',
      '############################'],
   {'#': Wall,
-     'O': PlantEater,
+     'O': PlantEater2,
      '*': Plant}
 )
 
-for (var i = 0; i < 250; i++) {
+for (var i = 0; i < 450; i++) {
     valley.turn()
     console.log(valley.toString())
 }
