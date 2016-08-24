@@ -1,16 +1,3 @@
-var plan = ['############################',
-            '#      #    #      o      ##',
-            '#                          #',
-            '#          #####           #',
-            '##         #   #    ##     #',
-            '###           ##     #     #',
-            '#           ###      #     #',
-            '#   ####                   #',
-            '#   ##       o             #',
-            '# o  #         o       ### #',
-            '#    #                     #',
-            '############################']
-
 function Vector(x, y) {
     this.x = x
     this.y = y
@@ -270,48 +257,38 @@ PlantEater.prototype.act = function(context) {
         return {type: 'move', direction: space}
 }
 
-/*********************************************************************
- * LifelikeWorld invoked w/ PlantEater2 for Artificial Stupidty problem
- */
-
-function PlantEater2() {
+function SmartPlantEater() {
     this.direction = randomElement(directionNames)
     this.energy = 20    
 }
-PlantEater2.prototype.act = function(context) {
+SmartPlantEater.prototype.act = function(context) {
     var space = context.find(' ')
     if (this.energy > 60 && space)
         return {type: 'reproduce', direction: space}
     var plant = context.find('*')
     if (plant && this.energy < 50)
         return {type: 'eat', direction: plant}
-    if (plant)
-        return {type: 'move', direction: space}
-}
-
-function PlantEater3() {
-    this.direction = randomElement(directionNames)
-    this.energy = 20    
-}
-PlantEater3.prototype.act = function(context) {
-    var space = context.find(' ')
-    if (this.energy > 60 && space)
-        return {type: 'reproduce', direction: space}
-    var plant = context.find('*')
-    if (plant && this.energy < 50)
-        return {type: 'eat', direction: plant}
-    console.log(this)
     if (context.look(this.direction) != ' ') {
         this.direction = context.find(' ') || 's'
     } 
     return {type: 'move', direction: this.direction}
 }
 
+function Tiger() {
+}
+Tiger.prototype.act = function(context) {
+    var space = context.find(' ')
+    var prey = context.find('O')
+    if (prey)
+        return {type: 'eat', direction: prey}
+    if (space)
+        return {type: 'move', direction: space}
+}
 
 var valley = new LifelikeWorld(
     ['############################',
-     '#####                 ######',
-     '##   ***                **##',
+     '#####    O    @       ######',
+     '##  *****               **##',
      '#   *##**         **  O  *##',
      '#    ***     O    ##**    *#',
      '#       O         ##***    #',
@@ -321,12 +298,15 @@ var valley = new LifelikeWorld(
      '#***        ##**    O    **#',
      '##****     ###***       *###',
      '############################'],
-  {'#': Wall,
-     'O': PlantEater2,
-     '*': Plant}
+  { '#': Wall,
+    '*': Plant,
+    'O': SmartPlantEater,
+    '@': Tiger}
 )
 
-for (var i = 0; i < 450; i++) {
+for (var i = 0; i < 100; i++) {
     valley.turn()
     console.log(valley.toString())
 }
+
+
