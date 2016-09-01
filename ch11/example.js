@@ -37,3 +37,12 @@ function parseApply(expr, program) {
     }
     return parseApply(expr, program.slice(1))
 }
+
+function parse(program) {
+    var result = parseExpression(program)
+    if (skipSpace(result.rest).length > 0)
+        throw new SyntaxError("Unexpected text after program")
+    return result.expr
+}
+
+console.log(parse("+(a, 10)"))
