@@ -1,4 +1,3 @@
-var count = 1;
 function parseExpression(program) {
     program = skipSpace(program)
     var match, expr
@@ -16,7 +15,9 @@ function parseExpression(program) {
 
 function skipSpace(string) {
     var first = string.search(/\S/)
+    var second = string.search(/#/)
     if (first == -1) return ""
+    if (second == 0) return "\n"
     return string.slice(first)
 }
 
@@ -110,3 +111,87 @@ specialForms["define"] = function(args, env) {
     env[args[0].name] = value
     return value
 }
+
+var topEnv = Object.create(null)
+
+topEnv["true"] = true
+topEnv["false"] = false
+
+var operators = ["+", "-", "*", "/", "==", "<", ">"]
+
+operators.forEach(function(op) {
+    topEnv[op] = new Function("a, b", "return a" + op + " b;")
+})
+
+topEnv["print"] = function(value) {
+    console.log(value)
+    return value
+}
+
+topEnv["array"] = function(values) {
+    var args = Array.prototype.slice.call(arguments, 0).join(" ")
+    return args
+}
+
+topEnv["length"] = function(array) {
+    var l = array.length;
+    // subtract 2 because .length from JS includes ()'s
+    return l - 2
+}
+
+topEnv["element"] = function(array, n) {
+    var ele = array[n]
+    return ele
+}
+
+console.log("test!")
+run("print(array(1,2,3))")
+run("print(element(array(1,2,3), 1))")
+run("print(element(array(1,2,3), 2))")
+console.log("end test!")
+
+function run() {
+    var env = Object.create(topEnv)
+    var program = Array.prototype.slice.call(arguments, 0).join("\n")
+    return evaluate(parse(program), env)
+}
+
+run("do(define(total, 0),",
+    "   define(count, 1),",
+    "   while(<(count, 11),",
+    "       do(define(total, +(total, count)),",
+    "           define(count, +(count, 1)))),",
+    "   print(total))")
+// 55
+
+specialForms["fun"] = function(args, env) {
+    if (!args.length)
+        throw new SyntaxError("Functions need a body")
+    function name(expr) {
+        if (expr.type != "word")
+            throw new SyntaxError("Arg names must be words")
+        return expr.name
+    }
+    var argNames = args.slice(0, args.length -1).map(name)
+    var body = args[args.length -1]
+
+    return function() {
+        if (arguments.length != argNames.length)
+            throw new TypeError("Wrong number of arguments")
+        var localEnv = Object.create(env)
+        for (var i = 0; i < arguments.length; i++)
+            localEnv[argNames[i]] = arguments[i]
+        return evaluate(body, localEnv)
+    }
+}
+
+run("do(define(plusOne, fun(a, +(a, 1))),",
+    "   print(plusOne(10)))")
+// 11
+
+run("do(define(pow, fun(base, exp,",
+    "   if(==(exp, 0),",
+    "       1,",
+    "       *(base, pow(base, - (exp, 1)))))),",
+    "   print(pow(2, 10)))")
+// 1024
