@@ -7,47 +7,25 @@
 
 <body>
 
+<p>And if you go chasing
+    <span class="animal">rabbits</span></p>
+<p>And you know you're going to fall</p>
+<p>Tell 'em a <span class="character">hookah smoking
+    <span class="animal">caterpillar</span></span></p>
+<p>Has given you the call</p>
+
 <script>
 
-function highlightCode(node, keywords) {
-    var text = node.textContent
-    node.textContent = "" // clear node
-
-    var match, pos = 0
-    while (match = keywords.exec(text)) {
-        var before = text.slice(pos, match.index)
-        node.appendChild(document.createTextNode(before))
-        var strong = document.createElement("strong")
-        strong.appendChild(document.createTextNode(match[0]))
-        node.appendChild(strong)
-        pos = keywords.lastIndex
+    function count(selector) {
+        return document.querySelectorAll(selector).length
     }
-    var after = text.slice(pos)
-    node.appendChild(document.createTextNode(after))
-}
 
-var languages = {
-    javascript: /\b(function|return|var)\b/g
-}
-
-function highlightAllCode() {
-    var pres = document.body.getElementsByTagName("pre")
-    for (var i = 0; i < pres.length; i++) {
-        var pre = pres[i]
-        var lang = pre.getAttribute("data-language")
-        if (languages.hasOwnProperty(lang))
-            highlightCode(pre, languages[lang])
-    }
-}
+    console.log(count("p"))
+    console.log(count(".animal"))
+    console.log(count("p .animal"))
+    console.log(count("p > .animal"))
 
 </script>
-
-<p>Here it is, the identity function:</p>
-<pre data-language="javascript">
-function id(x) { return x; }
-</pre>
-
-<script>highlightAllCode()</script>
 
 </body>
 
