@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Build a Table</title>
+</head>
+<body>
+
+<h1>Mountains:</h1>
+
+<script>
+
+var MOUNTAINS = [
+{name: "Kilimanjaro", height: 5895, country: "Tanzania"},
+{name: "Everest", height: 8848, country: "Nepal"},
+{name: "Mount Fuji", height: 3776, country: "Japan"},
+{name: "Mont Blanc", height: 4808, country: "Italy/France"},
+{name: "Vaalserberg", height: 323, country: "Netherlands"},
+{name: "Denali", height: 6168, country: "United States"},
+{name: "Popocatepetl", height: 5465, country: "Mexico"}
+];
+
+function buildTable(arr) {
+    var start = document.createElement("table")
+    var headers = Object.keys(arr[0])
+
+    document.body.appendChild(start)
+
+    var headerRow = document.createElement("tr")
+    start.appendChild(headerRow)
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = document.createElement("th")
+        headerRow.appendChild(header)
+        header.appendChild(document.createTextNode(headers[i]))
+    }
+
+    console.log(arr[0][headers[0]])
+
+    for (var i = 0; i < arr.length; i++) {
+        var bodyRow = document.createElement("tr")
+        start.appendChild(bodyRow)
+
+        for (var j = 0; j < headers.length; j++) {
+            var cell = document.createElement("td")
+            bodyRow.appendChild(cell)
+            cell.appendChild(document.createTextNode(arr[i][headers[j]]))
+        }
+    }
+}
+
+buildTable(MOUNTAINS)
+
+var table = document.getElementsByTagName("table")[0]
+table.style.textAlign = "right"
+
+
+</script>
+
+</body>
+</html>
