@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Elements By Tag Name</title>
+</head>
+<body>
+
+<table>
+    <tr>
+        <th></th>
+        <th></th>
+        <th>
+            <td></td>
+        </th>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+<script>
+
+function getElementsByTagName2(node, string) {
+    var arrayOfElements = []
+    function recurse(node) {
+        if (node.nodeType == document.ELEMENT_NODE) {
+            for (var i = 0; i < node.childNodes.length; i++) {
+                if (node.childNodes[i].tagName === string.toUpperCase())
+                    arrayOfElements.push(node)
+                if (node.childNodes[i].childNodes.length > 0)
+                    recurse(node.childNodes[i])
+            }
+        }
+    }
+    recurse(node)
+    return arrayOfElements
+}
+
+console.log(getElementsByTagName2(document.body, "td"))
+
+</script>
+</body>
+</html>
