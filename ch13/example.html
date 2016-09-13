@@ -1,32 +1,45 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Example</title>
+    <title>example</title>
 </head>
-
 <body>
 
-<p>And if you go chasing
-    <span class="animal">rabbits</span></p>
-<p>And you know you're going to fall</p>
-<p>Tell 'em a <span class="character">hookah smoking
-    <span class="animal">caterpillar</span></span></p>
-<p>Has given you the call</p>
+<div>
+    <img id="cat" src="img/download.jpg" style="position: absolute">
+    <img id="hat" src="img/download2.jpg" style="position: absolute">
+</div>
 
 <script>
 
-    function count(selector) {
-        return document.querySelectorAll(selector).length
-    }
+var cat = document.getElementById("cat")
+var hat = document.getElementById("hat")
+var angle = 0
+var angle2 = angle + Math.PI
+var lastTime = null
 
-    console.log(count("p"))
-    console.log(count(".animal"))
-    console.log(count("p .animal"))
-    console.log(count("p > .animal"))
+function animate(time) {
+    if (lastTime != null)
+        angle += (time - lastTime) * 0.001
+    lastTime = time
+    cat.style.top = (Math.sin(angle) * 20) + 350 + "px"
+    cat.style.left = (Math.cos(angle) * 200) + 350 + "px"
+    requestAnimationFrame(animate)
+}
+
+function animate2(time) {
+    if (lastTime != null)
+        angle2 += (time - lastTime) * 0.001
+    lastTime = time
+    hat.style.top = (Math.sin(angle2) * 20) + 350 + "px"
+    hat.style.left = (Math.cos(angle2) * 200) + 350 + "px"
+    requestAnimationFrame(animate2)
+}
+
+requestAnimationFrame(animate2)
+requestAnimationFrame(animate)
 
 </script>
 
 </body>
-
 </html>
