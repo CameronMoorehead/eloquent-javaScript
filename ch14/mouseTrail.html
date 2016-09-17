@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mouse Trail</title>
+</head>
+<body>
+<style>
+body {
+    height: 30em;
+    width: 30em;
+    background: beige;
+}
+.trail {
+    height: 8px; width: 8px;
+    border-radius: 4px;
+    background: blue;
+    position: absolute;
+}
+</style>
+
+<script>
+
+
+    addEventListener("mousemove", function(event) {
+        var count = document.getElementsByClassName("trail")
+        var trail = document.createElement("div")
+        trail.className = "trail"
+
+        var count = document.getElementsByClassName("trail")
+
+        function animateTrail() {
+            trail.style.left = (event.pageX - 4) + "px"
+            trail.style.top = (event.pageY - 4) + "px"
+            document.body.appendChild(trail)
+        }
+        
+        if (count.length < 9)
+            animateTrail()
+        else
+            document.body.removeChild(count[0])
+            animateTrail()
+
+        console.log(count.length)
+    })
+
+</script>
+
+</body>
+</html>
