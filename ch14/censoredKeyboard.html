@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Censored Keyboard</title>
+</head>
+<body>
+
+<button>Press</button>
+<p style="text-align: center; margin-top: 5em">Text: <input type="text"></p>
+
+<script>
+
+var textField = document.querySelector("input")
+
+textField.addEventListener("keydown", function(event) {
+    if (event.keyCode == 81)
+        event.preventDefault()
+    else if (event.keyCode == 87)
+        event.preventDefault()
+    else if (event.keyCode == 88)
+        event.preventDefault()
+})
+
+</script>
+
+</body>
+</html>
