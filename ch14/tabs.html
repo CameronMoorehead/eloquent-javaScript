@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tabs</title>
+</head>
+<body>
+
+<div id="root">
+    <div class="child">
+        <h3>Pasta</h3>
+            <p>Spaghetti</p>
+            <p>Linguini</p>
+            <p>Farfalle</p>
+    </div>
+    <div class="child">
+        <h3>Fruits</h3>
+            <p>Apple</p>
+            <p>Orange</p>
+            <p>Banana</p>
+    </div>
+    <div class="child">
+        <h3>Automobiles</h3>
+            <p>Cars</p>
+            <p>Trucks</p>
+            <p>Commercial</p>
+    </div>
+</div>
+
+<script>
+
+function asTabs(node) {
+    // gets live list
+    var nodes = node.childNodes
+    // converts live list to standard array
+    var arrayOfNodes = Array.prototype.slice.call(nodes, 0)
+    // filters out non-element nodes
+    var children = arrayOfNodes.filter(function(ele) {
+        return ele.nodeType == document.ELEMENT_NODE
+    })
+    for (var i = 0; i < children.length; i++) {
+        var tabs = document.createElement("button")
+        tabs.textContent = (children[i].querySelector("h3").innerHTML)
+        tabs.setAttribute("id", children[i].querySelector("h3").innerHTML)
+        children[i].setAttribute("id", children[i].querySelector("h3").innerHTML + "1")
+        document.body.appendChild(tabs)
+    }
+    function clearViews() {
+        for (var i = 0; i < children.length; i++) {
+            children[i].style.display = "none"
+        }
+    }
+    clearViews()
+    children[0].style.display = "block"
+    var buttons = document.querySelectorAll("button")
+    document.body.addEventListener("click", function(event) {
+        if (event.target.nodeName == "BUTTON")
+            clearViews()
+            var test = event.target.firstChild.nodeValue
+            var newView = document.getElementById(test + "1")
+            console.log(newView)
+            newView.style.display = "block"
+
+    })
+}
+
+var children = document.getElementById("root")
+asTabs(children)
+
+</script>
+
+</body>
+</html>
+
