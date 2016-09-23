@@ -103,7 +103,7 @@ function DOMDisplay(parent, level) {
   this.drawFrame();
 }
 
-var scale = 20;
+var scale = 30;
 
 DOMDisplay.prototype.drawBackground = function() {
   var table = elt("table", "background");
@@ -245,8 +245,8 @@ Player.prototype.moveX = function(step, level, keys) {
     this.pos = newPos;
 };
 
-var gravity = 30;
-var jumpSpeed = 17;
+var gravity = 15;
+var jumpSpeed = 27;
 
 Player.prototype.moveY = function(step, level, keys) {
   this.speed.y += step * gravity;
@@ -329,6 +329,8 @@ function runAnimation(frameFunc) {
 
 var arrows = trackKeys(arrowCodes);
 
+var lives = 3;
+
 function runLevel(level, Display, andThen) {
   var display = new Display(document.body, level);
   runAnimation(function(step) {
@@ -346,11 +348,19 @@ function runLevel(level, Display, andThen) {
 function runGame(plans, Display) {
   function startLevel(n) {
     runLevel(new Level(plans[n]), Display, function(status) {
-      if (status == "lost")
+      if (lives === 0) {
+        console.log("You lose!")
+        window.setTimeout(function() {
+            lives = 3;
+            startLevel(0)
+        }, 3000)
+      } else if (status == "lost") {
+        lives--;
+        console.log("lost 1 life; and you have", lives, "left")
         startLevel(n);
-      else if (n < plans.length - 1)
+      } else if (n < plans.length - 1) {
         startLevel(n + 1);
-      else
+      } else
         console.log("You win!");
     });
   }
