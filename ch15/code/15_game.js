@@ -333,15 +333,24 @@ var lives = 3;
 
 function runLevel(level, Display, andThen) {
   var display = new Display(document.body, level);
+  var isActive = 1;
+  addEventListener("keydown", function(event) {
+    if (event.keyCode == 27) {
+      isActive += 1;
+      console.log(Boolean(isActive % 2));
+    }
+  })
   runAnimation(function(step) {
-    level.animate(step, arrows);
-    display.drawFrame(step);
-    if (level.isFinished()) {
+      if (isActive)
+          console.log("true")
+      level.animate(step, arrows);
+      display.drawFrame(step);
+      if (level.isFinished()) {
       display.clear();
       if (andThen)
-        andThen(level.status);
+          andThen(level.status);
       return false;
-    }
+      }
   });
 }
 
