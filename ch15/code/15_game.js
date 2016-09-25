@@ -334,24 +334,29 @@ var lives = 3;
 function runLevel(level, Display, andThen) {
   var display = new Display(document.body, level);
   var isActive = 1;
-  addEventListener("keydown", function(event) {
+  function handleKey(event) {
     if (event.keyCode == 27) {
       isActive += 1;
-      console.log(Boolean(isActive % 2));
-    }
-  })
-  runAnimation(function(step) {
+      isActive = isActive % 2;
       if (isActive)
-          console.log("true")
-      level.animate(step, arrows);
-      display.drawFrame(step);
-      if (level.isFinished()) {
+        runAnimation(animation)
+    }
+  }
+  addEventListener("keydown", handleKey)
+
+  function animation(step) {
+    if (!isActive)
+      return false
+    level.animate(step, arrows);
+    display.drawFrame(step);
+    if (level.isFinished()) {
       display.clear();
-      if (andThen)
-          andThen(level.status);
-      return false;
-      }
-  });
+    if (andThen)
+      andThen(level.status);
+    return false;
+    }
+  }
+  runAnimation(animation);
 }
 
 function runGame(plans, Display) {
