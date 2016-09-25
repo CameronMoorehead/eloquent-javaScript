@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<canvas></canvas>
+
+<script>
+/* Trapezoid
+    var cx = document.querySelector("canvas").getContext("2d")
+    cx.beginPath()
+    cx.moveTo(40, 10)
+    cx.lineTo(30, 30)
+    cx.lineTo(70, 30)
+    cx.lineTo(60, 10)
+    cx.closePath()
+    cx.stroke()
+*/
+
+/* Diamond
+    var cx = document.querySelector("canvas").getContext("2d")
+    cx.fillStyle = "red"
+    cx.rotate(45 * Math.PI / 180)
+    cx.translate(100, -80)
+    cx.fillRect(10, 10, 80, 80)
+*/
+
+/* Zigzagging Line
+    var cx = document.querySelector("canvas").getContext("2d")
+    cx.beginPath()
+    for (var y = 10; y < 70; y += 10) {
+        cx.moveTo(10, y)
+        cx.lineTo(90, y + 5)
+        cx.lineTo(10, y + 10)
+    }
+    cx.stroke()
+*/
+
+/* Spiral
+
+    var cx = document.querySelector("canvas").getContext("2d")
+    function spiral(length, angle, counter) {
+        cx.fillRect(0, 0, 1, length)
+        if (counter < 1) return;
+        cx.save()
+        cx.translate(0, length)
+        cx.rotate(-angle)
+        spiral(length, angle * 0.982, counter -1)
+        cx.restore()
+    }
+    cx.translate(100, 50)
+    spiral(5, 0.5, 100)
+
+*/
+
+</script>
